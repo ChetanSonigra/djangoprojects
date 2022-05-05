@@ -159,8 +159,8 @@ td,th {
 </style>
 <script type='text/javascript'>
   function checkdates(){
-    var sd = document.getElementById('sd').value;
-    var cd = document.getElementById('cd').value;
+    var sd = new Date(document.getElementById('sd').value);
+    var cd = new Date(document.getElementById('cd').value);
     if (cd.getTime() < sd.getTime()){
       alert("Start date must be before completion date");
       return false;
@@ -177,10 +177,10 @@ td,th {
     <label for="title">Task: </label>
     <input type="text" required="true" name="title" id="myInput" placeholder="Title..."><br>
     <label for="startdateplanned">Start Date (Planned): </label>
-    <input type="date" onsubmit="checkdates();" required="true" id="sd" name="startdateplanned" placeholder="Start Date (Planned)"><br>
+    <input type="date" onchange="checkdates();" required="true" id="sd" name="startdateplanned" placeholder="Start Date (Planned)"><br>
     <label for="completiondateplanned">Completion Date(Planned): </label>
     <input type="date" onchange="checkdates();" required="true" id="cd" name="completiondateplanned" placeholder="Completion Date(Planned)"><br>
-    <input type="submit" class="addBtn" value="Add">
+    <input type="submit" onclick="checkdates();" class="addBtn" value="Add">
   </form>
 </div>
 

@@ -7,6 +7,8 @@ from .models import Todo
 
 from datetime import *
 
+import sys
+
 from operator import attrgetter
 
 todo = Todo.objects.all()
@@ -19,15 +21,19 @@ def index(request):
     if request.method=='POST': 
 
         l = ['', "Not Completed"]
-        if ((request.POST['startdateplanned'] not in l) and (request.POST['completiondateplanned'] not in l) and request.POST['title'] != '' ) :
-        
+        if ((request.POST['startdateplanned'] not in l) and (request.POST['completiondateplanned'] not in l) and (request.POST['title'] != '')) :
             new_todo = Todo(
                 title = request.POST['title'], 
                 startdateplanned = datetime.strptime(request.POST['startdateplanned'],'%Y-%m-%d'),
                 completiondateplanned = datetime.strptime(request.POST['completiondateplanned'],'%Y-%m-%d')
                 )
-            new_todo.save()
+
+            if new_todo.startdateplanned <= new_todo.completiondateplanned:
+                new_todo.save()
+            else:
+                new_todo.delete()
             return redirect('/')
+            
 
     return render(request, 'index.html', {'todos': todo, 'sortpk': sortpk})
     
